@@ -1,0 +1,128 @@
+.image img{
+  width: 100%;
+}
+.mark-cont {
+  position: absolute;
+  top: 3.5em;
+  width: 100%;
+  height: 7em;
+}
+.mark {
+  margin: auto;
+  text-align: center;
+  min-width: 250px;
+  max-width: 700px;
+  width: 70%;
+  height: 80%;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  padding-top: 1em;
+}
+.name {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  padding-bottom: 3%;
+}
+.titles {
+  font-size: 1em;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+}
+#nav {
+  background-color: rgba(255, 255, 255, 1);
+  width: 12em;
+  height: 19em;
+  border-radius: 10px;
+  position: absolute;
+  left: 0;
+  top: 4em;
+  z-index: 10;
+}
+.toggle {
+  display: none;
+}
+#nav-list {
+  text-align: center;
+  color: rgb(38, 38, 38);
+}
+.list {
+  list-style: none;
+  display: block;
+  font-family: 'Raleway', sans-serif;
+  font-size: 2em;
+  padding: 1em 0;
+  color: rgb(30, 30, 30);
+}
+a {
+  text-decoration: none;
+}
+.btn {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: .25em .5em;
+  border-radius: 15%;
+  position: fixed;
+  top: .5em;
+  left: .5em;
+}
+.fa {
+  color: white;
+}
+[data-type="about"] {
+  display: block;
+}
+.nav-but {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  height: 50px;
+}
+#project p {
+  text-align: center;
+}
+@media (min-width: 655px){
+  .btn {
+    display: none;
+  }
+  #nav {
+    width: 100%;
+    height: 50px;
+    border-radius: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
+  #hav-list {
+    height: 100%;
+  }
+  .toggle {
+    display: block;
+  }
+  .list {
+    border-radius: 10px;
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+    font-size: 32px;
+    padding: .3em 3%;
+  }
+  .mark-cont {
+    top: 11em;
+    height: 230px;
+  }
+  .mark {
+    min-width: 250px;
+    max-width: 600px;
+    width: 70%;
+    border-radius: 10px;
+    padding-top: 3em;
+  }
+  .name {
+    font-size: 4em;
+    padding-bottom: 4%;
+  }
+  .titles {
+    font-size: 2em;
+  }
+}
+
