@@ -1,0 +1,39 @@
+[data-type="experience"] {
+  display: none;
+}
+
+.job, #experience {
+  font-family: 'Raleway', sans-serif;
+  width: 100%;
+}
+.job h4, .github h4, #experience h4{
+  font-size: 28px;
+  text-align: center;
+  padding-top: 2vh;
+  font-weight: 600;
+}
+.job p, .github p, #experience p {
+  font-size: 20px;
+  text-align: center;
+}
+.github {
+  text-align: center;
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+}
+.button {
+  color: white;
+  border-radius: 5px;
+  background: #939393;
+  border: none;
+  width: 60vw;
+  height: 7vh;
+  padding: 1vw;
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+}
+/*.github h4 {}
+.github p {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+}*/

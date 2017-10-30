@@ -1,0 +1,49 @@
+h3 {
+  text-align: center;
+  margin-top: 7vh;
+  padding: 1em 0;
+  font-family: 'Raleway', sans-serif;
+  color: white;
+  font-size: 30px;
+  background-color: rgb(147, 147, 147);
+}
+/*#template {
+  display: none;
+}*/
+.project {
+  width: 100%;
+  text-align: center;
+}
+.project h4 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5em;
+  padding: 1em 0 .5em;
+}
+.project img {
+  width: 75%;
+}
+.project p {
+  margin: auto;
+  width: 75%;
+  padding: 1em 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1em;
+}
+.btn {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+[data-type="portfolio"] {
+  display: none;
+}
+@media (min-width: 655px) {
+  .project h4 {
+    font-size: 2em;
+  }
+  .project img {
+    width: 60%;
+  }
+  .project p {
+    width: 60%;
+    font-size: 1.25em;
+  }
+}
