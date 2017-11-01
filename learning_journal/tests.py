@@ -50,3 +50,29 @@ def test_list_view_response_text_has_proper_content(dummy_request):
     response = list_view(dummy_request)
     text = '<h1>Mark\'s Thoughtful Spot</h1>'
     assert text in response.ubody
+
+
+def test_detail_view_response_text_has_proper_content_type(dummy_request):
+    """Test that list view returns expected content."""
+    response = detail_view(dummy_request)
+    assert response.content_type == 'text/html'
+
+
+def test_detail_view_response_text_has_proper_content(dummy_request):
+    """Test that list view returns expected content."""
+    response = detail_view(dummy_request)
+    text = '<h1>Mark\'s Thoughtful Spot</h1>'
+    assert text in response.ubody
+
+
+def test_create_view_response_text_has_proper_content_type(dummy_request):
+    """Test that list view returns expected content."""
+    response = create_view(dummy_request)
+    assert response.content_type == 'text/html'
+
+
+def test_create_view_response_text_has_proper_content(dummy_request):
+    """Test that list view returns expected content."""
+    response = create_view(dummy_request)
+    text = '<h1>Mark\'s Thoughtful Spot</h1>'
+    assert text in response.ubody
