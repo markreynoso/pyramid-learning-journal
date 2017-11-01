@@ -1,13 +1,12 @@
 # pyramid-learning-journal
 
-[![Build Status](https://travis-ci.org/nhuntwalker/expense_tracker.svg?branch=master)](https://travis-ci.org/nhuntwalker/expense_tracker)
-[![Coverage Status](https://coveralls.io/repos/github/nhuntwalker/expense_tracker/badge.svg?branch=master)](https://coveralls.io/github/nhuntwalker/expense_tracker?branch=master)
+https://marksthoughtfulspot.herokuapp.com/
 
 A simple Pyramid app for listing and displaying expenses.
 
 **Authors**:
 
-- Mark Reynoso (www.markreynoso.com)
+- Mark Reynoso
 - 401 Python Course Project
 
 ## Routes:
