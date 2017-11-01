@@ -18,7 +18,7 @@ def dummy_request():
 def test_list_view_response_status_code_200_ok(dummy_request):
     """Test if request will return 200 ok response."""
     response = list_view(dummy_request)
-    assert list_response.status_code == 200
+    assert response.status_code == 200
 
 
 def test_datail_view_response_status_code_200_ok(dummy_request):
@@ -30,7 +30,7 @@ def test_datail_view_response_status_code_200_ok(dummy_request):
 def test_create_view_response_status_code_200_ok(dummy_request):
     """Test if request will return 200 ok response."""
     response = create_view(dummy_request)
-    assert resposne.status_code == 200
+    assert response.status_code == 200
 
 
 def test_update_view_response_status_code_200_ok(dummy_request):
