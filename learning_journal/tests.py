@@ -19,6 +19,14 @@ def test_list_view_returns_list_of_journals_in_dict():
     assert 'title' in response['blogs'][0]
 
 
+def test_create_view_returns_dict():
+    """Test if create view returns a dictionary."""
+    from learning_journal.views.default import create_view
+    req = DummyRequest()
+    response = create_view(req)
+    assert isinstance(response, dict)
+
+
 @pytest.fixture
 def testapp():
     """Initialize test route for testing."""
@@ -55,16 +63,13 @@ def test_detail_route_has_text_from_journal(testapp):
     assert "I\'m lamenting the loss of the console" in str(response.html)
 
 
-def test_create_view_returns_dict():
-    """Test if create view returns a dictionary."""
-    from learning_journal.views.default import create_view
-    req = DummyRequest()
-    response = create_view(req)
-    assert isinstance(response, dict)
+def test_create_route_has_one_item_in_dict(testapp):
+    """Test if create route returns correct entry."""
+    response = testapp.get("/journal/new-entry")
+    assert 'Alright, self, create a awesome blog' in str(response.html)
 
 
 def test_update_route_has_one_title(testapp):
-    """Test if update route returs correct entry."""
+    """Test if update route returns correct entry."""
     response = testapp.get("/journal/1/edit-entry")
-    print(response)
     assert 'Day 1 Journal' in str(response.html)
