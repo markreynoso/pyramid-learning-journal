@@ -1,78 +1,70 @@
 """Test default.py."""
-from pyramid import testing
+from pyramid.testing import DummyRequest
 import pytest
-from learning_journal.views.default import (
-    list_view,
-    detail_view,
-    create_view,
-    update_view
-)
+
+
+def test_list_view_returns_dict():
+    """Test if list view returns a dictionary."""
+    from learning_journal.views.default import list_view
+    req = DummyRequest()
+    response = list_view(req)
+    assert isinstance(response, dict)
+
+
+def test_list_view_returns_list_of_journals_in_dict():
+    """Test if list view returns list of blogs."""
+    from learning_journal.views.default import list_view
+    req = DummyRequest()
+    response = list_view(req)
+    assert 'title' in response['blogs'][0]
 
 
 @pytest.fixture
-def dummy_request():
-    """Fixture to initiate request for testing."""
-    return testing.DummyRequest()
+def testapp():
+    """Initialize test route for testing."""
+    from webtest import TestApp
+    from pyramid.config import Configurator
+
+    def main():
+        config = Configurator()
+        config.include('pyramid_jinja2')
+        config.include('.routes')
+        config.scan()
+        return config.make_wsgi_app()
+
+    app = main()
+    return TestApp(app)
 
 
-def test_list_view_response_status_code_200_ok(dummy_request):
-    """Test if request will return 200 ok response."""
-    response = list_view(dummy_request)
-    assert response.status_code == 200
+def test_home_route_has_h_two_titles(testapp):
+    """Test if num of titles is same as length of blogs."""
+    from learning_journal.views.default import BLOGS
+    response = testapp.get("/")
+    assert len(BLOGS) == len(response.html.find_all('h2'))
 
 
-def test_datail_view_response_status_code_200_ok(dummy_request):
-    """Test if request will return 200 ok response."""
-    response = detail_view(dummy_request)
-    assert response.status_code == 200
+def test_detail_route_has_one_title(testapp):
+    """Test if num of titles * 2 is same as length of blogs."""
+    response = testapp.get("/journal/1")
+    assert len(response.html.find_all('h2')) == 2
 
 
-def test_create_view_response_status_code_200_ok(dummy_request):
-    """Test if request will return 200 ok response."""
-    response = create_view(dummy_request)
-    assert response.status_code == 200
+def test_detail_route_has_text_from_journal(testapp):
+    """Test if detail route return text from served journal."""
+    response = testapp.get("/journal/1")
+    assert "I\'m lamenting the loss of the console" in str(response.html)
 
 
-def test_update_view_response_status_code_200_ok(dummy_request):
-    """Test if request will return 200 ok response."""
-    response = update_view(dummy_request)
-    assert response.status_code == 200
+def test_create_view_returns_dict():
+    """Test if create view returns a dictionary."""
+    from learning_journal.views.default import create_view
+    req = DummyRequest()
+    response = create_view(req)
+    assert isinstance(response, dict)
 
 
-def test_list_view_response_text_has_proper_content_type(dummy_request):
-    """Test that list view returns expected content."""
-    response = list_view(dummy_request)
-    assert response.content_type == 'text/html'
-
-
-def test_list_view_response_text_has_proper_content(dummy_request):
-    """Test that list view returns expected content."""
-    response = list_view(dummy_request)
-    text = '<h1>Mark\'s Thoughtful Spot</h1>'
-    assert text in response.ubody
-
-
-def test_detail_view_response_text_has_proper_content_type(dummy_request):
-    """Test that list view returns expected content."""
-    response = detail_view(dummy_request)
-    assert response.content_type == 'text/html'
-
-
-def test_detail_view_response_text_has_proper_content(dummy_request):
-    """Test that list view returns expected content."""
-    response = detail_view(dummy_request)
-    text = '<h2 class="section-heading">Learning all the Things</h2>'
-    assert text in response.ubody
-
-
-def test_create_view_response_text_has_proper_content_type(dummy_request):
-    """Test that list view returns expected content."""
-    response = create_view(dummy_request)
-    assert response.content_type == 'text/html'
-
-
-def test_create_view_response_text_has_proper_content(dummy_request):
-    """Test that list view returns expected content."""
-    response = create_view(dummy_request)
-    text = '<p>Alright, self, create a awesome blog post here!</p>'
-    assert text in response.ubody
+def test_update_route_has_one_title(testapp):
+    """Test if update route returs correct entry."""
+    response = testapp.get("/journal/1/edit-entry")
+    print(response)
+    assert 'Day 1 Journal' in str(response.html)
