@@ -3,6 +3,7 @@ from pyramid.view import view_config
 from datetime import datetime
 from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.data.journal_data import BLOGS
+from learning_journal.models.mymodel import Blog
 
 
 FMT = '%m/%d/%Y'
@@ -12,23 +13,26 @@ FMT = '%m/%d/%Y'
              renderer='learning_journal:templates/index.jinja2')
 def list_view(request):
     """Recieve request and serves home page."""
+    journals = request.dbsession.query(Blog).all()
+    journals = [item.to_dict() for item in journals]
     return {
-        "blogs": BLOGS
+        "blogs": journals
     }
 
 
 @view_config(route_name='detail',
              renderer='learning_journal:templates/read.jinja2')
 def detail_view(request):
+    pass
     """Receive request and serves single blog entry page."""
-    blog_id = int(request.matchdict['id'])
-    if blog_id < 0 or blog_id > len(BLOGS):
-        raise HTTPNotFound
-    # blog = BLOGS.id[blog_id]
-    blog = list(filter(lambda blog: blog['id'] == blog_id, BLOGS))[0]
-    return {
-        'blog': blog
-    }
+    # blog_id = int(request.matchdict['id'])
+    # if blog_id < 0 or blog_id > len(BLOGS):
+    #     raise HTTPNotFound
+    # # blog = BLOGS.id[blog_id]
+    # blog = list(filter(lambda blog: blog['id'] == blog_id, BLOGS))[0]
+    # return {
+    #     'blog': blog
+    # }
 
 
 @view_config(route_name='create',

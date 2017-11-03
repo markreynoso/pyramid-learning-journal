@@ -16,6 +16,8 @@ from ..models import (
     get_tm_session,
     )
 from ..models import Blog
+from learning_journal.data.journal_data import BLOGS
+from datetime import datetime
 
 
 def usage(argv):
@@ -40,8 +42,14 @@ def main(argv=sys.argv):
 
     session_factory = get_session_factory(engine)
 
-    # with transaction.manager:
-    #     dbsession = get_tm_session(session_factory, transaction.manager)
-
-    #     model = Blog(name='one', value=1)
-    #     dbsession.add(model)
+    with transaction.manager:
+        dbsession = get_tm_session(session_factory, transaction.manager)
+        many_journals = []
+        for item in BLOGS:
+            new_entry = Blog(
+                title=item["title"],
+                date=item["creation_date"],
+                body=item["body"]
+            )
+            many_journals.append(new_entry)
+        dbsession.add_all(many_journals)

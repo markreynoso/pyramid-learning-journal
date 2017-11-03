@@ -26,7 +26,6 @@ def test_deatil_view_returns_single_journal():
     req = DummyRequest()
     req.matchdict['id'] = 1
     response = detail_view(req)
-    print(response)
     assert 'Day 1 Journal' in response['blog']['title']
 
 
