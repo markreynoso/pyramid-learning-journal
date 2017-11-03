@@ -1,5 +1,6 @@
 """Test default.py."""
 from pyramid.testing import DummyRequest
+from pyramid.httpexceptions import HTTPNotFound
 import pytest
 
 
@@ -19,12 +20,40 @@ def test_list_view_returns_list_of_journals_in_dict():
     assert 'title' in response['blogs'][0]
 
 
+def test_deatil_view_returns_single_journal():
+    """Test if list view returns list of blogs."""
+    from learning_journal.views.default import detail_view
+    req = DummyRequest()
+    req.matchdict['id'] = 1
+    response = detail_view(req)
+    print(response)
+    assert 'Day 1 Journal' in response['blog']['title']
+
+
 def test_create_view_returns_dict():
     """Test if create view returns a dictionary."""
     from learning_journal.views.default import create_view
     req = DummyRequest()
     response = create_view(req)
     assert isinstance(response, dict)
+
+
+def test_update_view_returns_dict():
+    """Test if update view returns a dictionary."""
+    from learning_journal.views.default import update_view
+    req = DummyRequest()
+    req.matchdict['id'] = 1
+    response = update_view(req)
+    assert isinstance(response, dict)
+
+
+def test_update_view_raises_exception_id_not_found():
+    """Test if update raises exception on non-existent id."""
+    from learning_journal.views.default import update_view
+    req = DummyRequest()
+    req.matchdict['id'] = 20
+    with pytest.raises(HTTPNotFound):
+        update_view(req)
 
 
 @pytest.fixture
