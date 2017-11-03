@@ -23,16 +23,14 @@ def list_view(request):
 @view_config(route_name='detail',
              renderer='learning_journal:templates/read.jinja2')
 def detail_view(request):
-    pass
-    """Receive request and serves single blog entry page."""
-    # blog_id = int(request.matchdict['id'])
-    # if blog_id < 0 or blog_id > len(BLOGS):
-    #     raise HTTPNotFound
-    # # blog = BLOGS.id[blog_id]
-    # blog = list(filter(lambda blog: blog['id'] == blog_id, BLOGS))[0]
-    # return {
-    #     'blog': blog
-    # }
+    """Receive request for one journal and returns that journals dict."""
+    journal_id = int(request.matchdict['id'])
+    journal = request.dbsession.query(Blog).get(journal_id)
+    if journal:
+        return {
+            'blog': journal.to_dict()
+        }
+    raise HTTPNotFound
 
 
 @view_config(route_name='create',
@@ -48,10 +46,10 @@ def create_view(request):
 def update_view(request):
     """Receive request and serves edit blog page."""
     blog_id = int(request.matchdict['id'])
-    if blog_id < 0 or blog_id > len(BLOGS):
-        raise HTTPNotFound
-    # blog = BLOGS.id[blog_id]
-    blog = list(filter(lambda blog: blog['id'] == blog_id, BLOGS))[0]
-    return {
-        'blog': blog
-    }
+    journal_id = int(request.matchdict['id'])
+    journal = request.dbsession.query(Blog).get(journal_id)
+    if journal:
+        return {
+            'blog': journal.to_dict()
+        }
+    raise HTTPNotFound

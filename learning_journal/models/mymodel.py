@@ -14,7 +14,7 @@ class Blog(Base):
     __tablename__ = 'journals'
     id = Column(Integer, primary_key=True)
     title = Column(Text)
-    date = Column(Text)
+    creation_date = Column(Text)
     body = Column(Text)
 
 
@@ -29,7 +29,7 @@ class Blog(Base):
         return {
             'id': self.id,
             'title': self.title,
-            'due_date': self.date,
+            'creation_date': self.creation_date,
             'body': self.body
         }
 

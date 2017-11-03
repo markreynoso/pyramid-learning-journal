@@ -47,8 +47,9 @@ def main(argv=sys.argv):
         many_journals = []
         for item in BLOGS:
             new_entry = Blog(
+                id=item["id"],
                 title=item["title"],
-                date=item["creation_date"],
+                creation_date=item["creation_date"],
                 body=item["body"]
             )
             many_journals.append(new_entry)
