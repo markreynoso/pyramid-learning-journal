@@ -1,11 +1,8 @@
 """View functions to serve to routes."""
 from pyramid.view import view_config
 from datetime import datetime
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound, HTTPBadRequest
 from learning_journal.models.mymodel import Blog
-
-
-FMT = '%B %d, %Y'
 
 
 @view_config(route_name='home',
@@ -36,30 +33,44 @@ def detail_view(request):
              renderer='learning_journal:templates/create.jinja2')
 def create_view(request):
     """Receive request and serves create blog page."""
-    # if request.method == "GET":
-    #     return {}
     if request.method == "POST":
         if not all([field in request.POST for field in ['title',
-                                                        'creation_date',
                                                         'body']]):
             raise HTTPBadRequest
         new_entry = Blog(
             title=request.POST['title'],
-            creation_date=request.POST['creation_date'],
-            body=datetime.strptime(request.POST['due_date'], '%Y-%m-%d')
+            creation_date=datetime.now(),
+            body=request.POST['body']
         )
-        request.dbsession.add(new_expense)
+        request.dbsession.add(new_entry)
         return HTTPFound(request.route_url('home'))
+    return {}
+
 
 @view_config(route_name='update',
              renderer='learning_journal:templates/edit.jinja2')
 def update_view(request):
     """Receive request and serves edit blog page."""
-    blog_id = int(request.matchdict['id'])
     journal_id = int(request.matchdict['id'])
     journal = request.dbsession.query(Blog).get(journal_id)
     if journal:
+        if request.method == 'POST' and request.POST:
+            journal.title = request.POST['title'],
+            journal.body = request.POST['body']
+            request.dbsession.flush()
+            return HTTPFound(request.route_url('detail', id=journal.id))
         return {
             'blog': journal.to_dict()
         }
+    raise HTTPNotFound
+
+
+@view_config(route_name='delete')
+def delete_view(request):
+    """Receive request and serves edit blog page."""
+    journal_id = int(request.matchdict['id'])
+    journal = request.dbsession.query(Blog).get(journal_id)
+    if journal:
+        request.dbsession.delete(journal)
+        return HTTPFound(request.route_url('home'))
     raise HTTPNotFound

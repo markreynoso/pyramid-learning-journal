@@ -3,8 +3,10 @@ from pyramid.testing import DummyRequest
 from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.models.meta import Base
 from learning_journal.models.mymodel import Blog
+from learning_journal.models.data.journal_data import BLOGS
 from pyramid import testing
 import pytest
+from faker import Faker
 
 
 @pytest.fixture(scope='session')
@@ -65,7 +67,7 @@ def test_list_view_contains_new_data_added(dummy_request):
     new_entry = Blog(
         id=100,
         title='Something Awesome',
-        creation_date=11-12-2019,
+        creation_date='November 19, 1955',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_entry)
@@ -78,14 +80,13 @@ def test_detail_view_returns_dict(dummy_request):
     """Test if detail view returns dictionary."""
     from learning_journal.views.default import detail_view
     new_detail = Blog(
-        id=101,
         title='Something Awesomer',
-        creation_date=11-12-2019,
+        creation_date='November 12, 1897',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
     dummy_request.dbsession.commit()
-    dummy_request.matchdict['id'] = 101
+    dummy_request.matchdict['id'] = 1
     response = detail_view(dummy_request)
     assert isinstance(response, dict)
 
@@ -94,14 +95,13 @@ def test_detail_view_returns_sinlgle_item(dummy_request):
     """Test if detail view returns dictionary with contents of 'title'."""
     from learning_journal.views.default import detail_view
     new_detail = Blog(
-        id=102,
         title='Something Awesomers',
-        creation_date=11-12-2019,
+        creation_date='January 1, 0001',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
     dummy_request.dbsession.commit()
-    dummy_request.matchdict['id'] = 102
+    dummy_request.matchdict['id'] = 2
     response = detail_view(dummy_request)
     assert response['blog']['title'] == 'Something Awesomers'
 
@@ -131,7 +131,7 @@ def test_create_view_returns_empty_dict(dummy_request):
 def test_update_view_returns_dict(dummy_request):
     """Test if update view returns a dictionary."""
     from learning_journal.views.default import update_view
-    dummy_request.matchdict['id'] = 101
+    dummy_request.matchdict['id'] = 1
     response = update_view(dummy_request)
     assert isinstance(response, dict)
 
@@ -139,7 +139,7 @@ def test_update_view_returns_dict(dummy_request):
 def test_update_view_returns_title_of_single_entry(dummy_request):
     """Test if update view title of single item chosen."""
     from learning_journal.views.default import update_view
-    dummy_request.matchdict['id'] = 102
+    dummy_request.matchdict['id'] = 2
     response = update_view(dummy_request)
     assert response['blog']['title'] == 'Something Awesomers'
 
@@ -150,3 +150,96 @@ def test_update_view_raises_exception_id_not_found(dummy_request):
     dummy_request.matchdict['id'] = 25
     with pytest.raises(HTTPNotFound):
         update_view(dummy_request)
+
+
+@pytest.fixture(scope="session")
+def testapp(request):
+    from webtest import TestApp
+    from pyramid.config import Configurator
+  
+    def main():
+        config = Configurator()
+        settings = {
+            'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
+        }  # points to a database
+        config = Configurator(settings=settings)
+        config.include('pyramid_jinja2')
+        config.include('.routes')
+        # config.include('learning_journal.routes')
+        # config.include('learning_journal.models')
+        config.scan()
+        return config.make_wsgi_app()
+  
+    app = main()
+
+    SessionFactory = app.registry["dbsession_factory"]
+    engine = SessionFactory().bind
+    Base.metadata.create_all(bind=engine)  # builds the tables
+
+    def tearDown():
+        Base.metadata.drop_all(bind=engine) # when tests are done, kill tables in DB
+
+    request.addfinalizer(tearDown)
+
+    return TestApp(app)
+  
+  
+@pytest.fixture(scope="session")
+def fill_the_db(testapp):
+    SessionFactory = testapp.app.registry["dbsession_factory"]
+    with transaction.manager:
+        dbsession = get_tm_session(SessionFactory, transaction.manager)
+        dbsession.add_all(BLOGS)
+
+
+FAKE = Faker()
+
+
+BLOGS = []
+
+
+for i in range(20):
+    new_entry = Blog(
+        title='journal{}'.format(i),
+        creation_date=FAKE.date_time(),
+        body='A new entry. {}'.format(FAKE.sentence())
+    )
+    BLOG.append(new_entry)
+
+
+def test_home_route_has_table(testapp):
+    # from learning_journal.views.default import BLOGS
+    response = testapp.get("/")
+    assert len(BLOGS) == len(response.html.find_all('h2')) - 1
+    assert len(response.html.find_all('title')) == 20
+
+
+# def test_home_route_with_expenses_has_rows(testapp, fill_the_db):
+#     response = testapp.get("/")
+#     assert len(response.html.find_all('tr')) == 21
+
+
+# def test_detail_route_with_expenses_shows_expense_detail(testapp, fill_the_db):
+#     response = testapp.get("/expenses/3")
+#     assert 'potato2' in response.ubody
+
+
+# def test_create_view_successful_post_redirects_home(testapp):
+#     expense_info = {
+#         "title": "Transportation",
+#         "amount": 2.75,
+#         "due_date": '2017-11-02'
+#     }
+#     response = testapp.post("/expenses/new-expense", expense_info)
+#     assert response.location == 'http://localhost/'
+
+
+# def test_create_view_successful_post_actually_shows_home_page(testapp):
+#     expense_info = {
+#         "title": "Booze",
+#         "amount": 88.50,
+#         "due_date": '2017-11-02'
+#     }
+#     response = testapp.post("/expenses/new-expense", expense_info)
+#     next_page = response.follow()
+#     assert "Booze" in next_page.ubody
