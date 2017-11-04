@@ -36,9 +36,20 @@ def detail_view(request):
              renderer='learning_journal:templates/create.jinja2')
 def create_view(request):
     """Receive request and serves create blog page."""
-    return {
-    }
-
+    # if request.method == "GET":
+    #     return {}
+    if request.method == "POST":
+        if not all([field in request.POST for field in ['title',
+                                                        'creation_date',
+                                                        'body']]):
+            raise HTTPBadRequest
+        new_entry = Blog(
+            title=request.POST['title'],
+            creation_date=request.POST['creation_date'],
+            body=datetime.strptime(request.POST['due_date'], '%Y-%m-%d')
+        )
+        request.dbsession.add(new_expense)
+        return HTTPFound(request.route_url('home'))
 
 @view_config(route_name='update',
              renderer='learning_journal:templates/edit.jinja2')
