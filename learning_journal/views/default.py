@@ -5,7 +5,7 @@ from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.models.mymodel import Blog
 
 
-FMT = '%m/%d/%Y'
+FMT = '%B %d, %Y'
 
 
 @view_config(route_name='home',

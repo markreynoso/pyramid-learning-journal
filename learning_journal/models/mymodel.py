@@ -1,9 +1,10 @@
 """Create model to store data in database."""
 from sqlalchemy import (
     Column,
+    DateTime,
     Index,
     Integer,
-    Text,
+    Unicode,
 )
 
 from .meta import Base
@@ -14,9 +15,9 @@ class Blog(Base):
 
     __tablename__ = 'journals'
     id = Column(Integer, primary_key=True)
-    title = Column(Text)
-    creation_date = Column(Text)
-    body = Column(Text)
+    title = Column(Unicode)
+    creation_date = Column(DateTime)
+    body = Column(Unicode)
 
     def to_dict(self):
         """Take all model attributes and render them as a dictionary."""
