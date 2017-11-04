@@ -2,7 +2,6 @@
 from pyramid.view import view_config
 from datetime import datetime
 from pyramid.httpexceptions import HTTPNotFound
-from learning_journal.data.journal_data import BLOGS
 from learning_journal.models.mymodel import Blog
 
 
