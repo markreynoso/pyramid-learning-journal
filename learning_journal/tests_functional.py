@@ -50,7 +50,6 @@ def fill_the_db(testapp):
     with transaction.manager:
         dbsession = get_tm_session(SessionFactory, transaction.manager)
         dbsession.add_all(BLOGS)
-        print(dbsession.query(Blog).all())
 
 
 BLOGS = []
