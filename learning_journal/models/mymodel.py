@@ -4,7 +4,7 @@ from sqlalchemy import (
     DateTime,
     Index,
     Integer,
-    Unicode,
+    String,
 )
 
 from .meta import Base
@@ -15,9 +15,9 @@ class Blog(Base):
 
     __tablename__ = 'journals'
     id = Column(Integer, primary_key=True)
-    title = Column(Unicode)
+    title = Column(String(convert_unicode=True))
     creation_date = Column(DateTime)
-    body = Column(Unicode)
+    body = Column(String(convert_unicode=True))
 
     def to_dict(self):
         """Take all model attributes and render them as a dictionary."""

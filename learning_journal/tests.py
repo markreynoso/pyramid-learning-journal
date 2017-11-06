@@ -14,7 +14,7 @@ from faker import Faker
 def configuration(request):
     """Set up a Configurator instance."""
     config = testing.setUp(settings={
-        'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
+        'sqlalchemy.url': 'postgres://localhost:5432/test_learning_journal'
     })
     config.include("learning_journal.models")
     config.include("learning_journal.routes")
@@ -82,7 +82,7 @@ def test_detail_view_returns_dict(dummy_request):
     from learning_journal.views.default import detail_view
     new_detail = Blog(
         title='Something Awesomer',
-        creation_date='November 12, 1897',
+        creation_date='November 11, 1982',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
@@ -97,7 +97,7 @@ def test_detail_view_returns_sinlgle_item(dummy_request):
     from learning_journal.views.default import detail_view
     new_detail = Blog(
         title='Something Awesomers',
-        creation_date='January 1, 0001',
+        creation_date='November 1, 2000',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
