@@ -14,7 +14,7 @@ from faker import Faker
 def configuration(request):
     """Set up a Configurator instance."""
     config = testing.setUp(settings={
-        'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
+        'sqlalchemy.url': 'postgres://localhost:5432/test_learning_journal'
     })
     config.include("learning_journal.models")
     config.include("learning_journal.routes")
@@ -36,7 +36,7 @@ def db_session(configuration, request):
 
     def teardown():
         session.transaction.rollback()
-        Base.metadata.drop_all(engine)
+        # Base.metadata.drop_all(engine)
 
     request.addfinalizer(teardown)
     return session
@@ -66,7 +66,6 @@ def test_list_view_contains_new_data_added(dummy_request):
     """Test if data sent through the request is added to the db."""
     from learning_journal.views.default import list_view
     new_entry = Blog(
-        id=100,
         title='Something Awesome',
         creation_date='November 19, 1955',
         body='All the cool things I write.'

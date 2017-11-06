@@ -67,7 +67,7 @@ for i in range(20):
     BLOGS.append(new_entry)
 
 
-def test_home_route_has_titles(testapp):
+def test_home_route_has_titles(testapp, fill_the_db):
     response = testapp.get("/")
     assert len(BLOGS) == len(response.html.find_all('h2')) - 1
     assert len(response.html.find_all('title')) == 20
