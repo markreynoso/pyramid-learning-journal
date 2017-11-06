@@ -11,7 +11,7 @@ import pytest
 def configuration(request):
     """Set up a Configurator instance."""
     config = testing.setUp(settings={
-        'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
+        'sqlalchemy.url': 'postgres://localhost:5432/test_learning_journal'
     })
     config.include("learning_journal.models")
     config.include("learning_journal.routes")
@@ -65,7 +65,7 @@ def test_list_view_contains_new_data_added(dummy_request):
     new_entry = Blog(
         id=100,
         title='Something Awesome',
-        creation_date=11-12-2019,
+        creation_date='November 12, 2019',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_entry)
@@ -80,7 +80,7 @@ def test_detail_view_returns_dict(dummy_request):
     new_detail = Blog(
         id=101,
         title='Something Awesomer',
-        creation_date=11-12-2019,
+        creation_date='November 11, 1982',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
@@ -96,7 +96,7 @@ def test_detail_view_returns_sinlgle_item(dummy_request):
     new_detail = Blog(
         id=102,
         title='Something Awesomers',
-        creation_date=11-12-2019,
+        creation_date='November 1, 2000',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
