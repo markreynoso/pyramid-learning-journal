@@ -30,6 +30,15 @@ def test_deatil_view_returns_single_journal():
     assert 'Day 1 Journal' in response['blog']['title']
 
 
+def test_detail_view_raises_exception_id_not_found():
+    """Test if detail raises exception on non-existent id."""
+    from learning_journal.views.default import detail_view
+    req = DummyRequest()
+    req.matchdict['id'] = 20
+    with pytest.raises(HTTPNotFound):
+        detail_view(req)
+
+
 def test_create_view_returns_dict():
     """Test if create view returns a dictionary."""
     from learning_journal.views.default import create_view
