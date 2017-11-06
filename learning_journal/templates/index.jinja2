@@ -20,7 +20,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           {% for blog in blogs %}
           <div class="post-preview">
-            <a href="{{ request.route_url('detail', id=blog.id) }}"">
+            <a href="{{ request.route_url('detail', id=blog.id) }}">
               <h2 class="post-title">{{ blog.title }}</h2>
             </a>
             <p class="post-meta">{{ blog.creation_date }}</p>

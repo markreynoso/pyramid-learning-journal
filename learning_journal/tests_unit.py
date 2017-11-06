@@ -14,7 +14,7 @@ from faker import Faker
 def configuration(request):
     """Set up a Configurator instance."""
     config = testing.setUp(settings={
-        'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
+        'sqlalchemy.url': 'postgres://localhost:5432/test_learning_journal'
     })
     config.include("learning_journal.models")
     config.include("learning_journal.routes")
@@ -66,7 +66,6 @@ def test_list_view_contains_new_data_added(dummy_request):
     """Test if data sent through the request is added to the db."""
     from learning_journal.views.default import list_view
     new_entry = Blog(
-        id=100,
         title='Something Awesome',
         creation_date='November 19, 1955',
         body='All the cool things I write.'
@@ -91,7 +90,7 @@ def test_detail_view_returns_dict(dummy_request):
     response = detail_view(dummy_request)
     assert isinstance(response, dict)
 
-    
+
 def test_detail_view_returns_sinlgle_item(dummy_request):
     """Test if detail view returns dictionary with contents of 'title'."""
     from learning_journal.views.default import detail_view
@@ -102,7 +101,7 @@ def test_detail_view_returns_sinlgle_item(dummy_request):
     )
     dummy_request.dbsession.add(new_detail)
     dummy_request.dbsession.commit()
-    dummy_request.matchdict['id'] = 2
+    dummy_request.matchdict['id'] = 3
     response = detail_view(dummy_request)
     assert response['blog']['title'] == 'Something Awesomers'
 
@@ -140,7 +139,7 @@ def test_update_view_returns_dict(dummy_request):
 def test_update_view_returns_title_of_single_entry(dummy_request):
     """Test if update view title of single item chosen."""
     from learning_journal.views.default import update_view
-    dummy_request.matchdict['id'] = 2
+    dummy_request.matchdict['id'] = 3
     response = update_view(dummy_request)
     assert response['blog']['title'] == 'Something Awesomers'
 
@@ -151,98 +150,3 @@ def test_update_view_raises_exception_id_not_found(dummy_request):
     dummy_request.matchdict['id'] = 25
     with pytest.raises(HTTPNotFound):
         update_view(dummy_request)
-
-
-# @pytest.fixture(scope="session")
-# def testapp(request):
-#     """Setup session to test front end of app."""
-#     from webtest import TestApp
-#     from pyramid.config import Configurator
-
-#     def main():
-#         config = Configurator()
-#         settings = {
-#             'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
-#         }
-#         config = Configurator(settings=settings)
-#         config.include('pyramid_jinja2')
-#         config.include('.routes')
-#         config.include('learning_journal.routes')
-#         config.include('learning_journal.models')
-#         config.scan()
-#         return config.make_wsgi_app()
-
-#     app = main()
-
-#     SessionFactory = app.registry["dbsession_factory"]
-#     engine = SessionFactory().bind
-#     Base.metadata.create_all(bind=engine)
-
-#     def tearDown():
-#         Base.metadata.drop_all(bind=engine)
-
-#     request.addfinalizer(tearDown)
-
-#     return TestApp(app)
-
-
-# @pytest.fixture(scope="session")
-# def fill_the_db(testapp):
-#     """Fill the db with dummy data."""
-#     SessionFactory = testapp.app.registry["dbsession_factory"]
-#     with transaction.manager:
-#         dbsession = get_tm_session(SessionFactory, transaction.manager)
-#         dbsession.add_all(BLOGS)
-
-
-# BLOGS = []
-
-
-# FAKE = Faker()
-
-
-# for i in range(20):
-#     new_entry = Blog(
-#         title='journal{}'.format(i),
-#         creation_date=FAKE.date_time(),
-#         body='A new entry. {}'.format(FAKE.sentence())
-#     )
-#     BLOGS.append(new_entry)
-
-
-# def test_home_route_has_titles(testapp):
-#     # from learning_journal.views.default import BLOGS
-#     response = testapp.get("/")
-#     assert len(BLOGS) == len(response.html.find_all('h2')) - 1
-#     assert len(response.html.find_all('title')) == 20
-
-
-# def test_home_route_with_expenses_has_rows(testapp, fill_the_db):
-#     response = testapp.get("/")
-#     assert len(response.html.find_all('tr')) == 21
-
-
-# def test_detail_route_with_expenses_shows_expense_detail(testapp, fill_the_db):
-#     response = testapp.get("/expenses/3")
-#     assert 'potato2' in response.ubody
-
-
-# def test_create_view_successful_post_redirects_home(testapp):
-#     expense_info = {
-#         "title": "Transportation",
-#         "amount": 2.75,
-#         "due_date": '2017-11-02'
-#     }
-#     response = testapp.post("/expenses/new-expense", expense_info)
-#     assert response.location == 'http://localhost/'
-
-
-# def test_create_view_successful_post_actually_shows_home_page(testapp):
-#     expense_info = {
-#         "title": "Booze",
-#         "amount": 88.50,
-#         "due_date": '2017-11-02'
-#     }
-#     response = testapp.post("/expenses/new-expense", expense_info)
-#     next_page = response.follow()
-#     assert "Booze" in next_page.ubody

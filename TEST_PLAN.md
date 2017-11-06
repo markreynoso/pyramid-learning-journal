@@ -1,15 +1,105 @@
-"""Test default.py."""
-from pyramid.testing import DummyRequest
-from pyramid.httpexceptions import HTTPNotFound
-from learning_journal.models.meta import Base
-from learning_journal.models import (Blog, get_tm_session)
-from learning_journal.models.meta import Base
-from pyramid import testing
-import pytest
-import transaction
-from faker import Faker
+
+Step 2 Tests
+def test_list_view_returns_dict():
+    """Test if list view returns a dictionary."""
+    from learning_journal.views.default import list_view
+    req = DummyRequest()
+    response = list_view(req)
+    assert isinstance(response, dict)
 
 
+def test_list_view_returns_list_of_journals_in_dict():
+    """Test if list view returns list of blogs."""
+    from learning_journal.views.default import list_view
+    req = DummyRequest()
+    response = list_view(req)
+    assert 'title' in response['blogs'][0]
+
+
+def test_deatil_view_returns_single_journal():
+    """Test if list view returns list of blogs."""
+    from learning_journal.views.default import detail_view
+    req = DummyRequest()
+    req.matchdict['id'] = 1
+    response = detail_view(req)
+    assert 'Day 1 Journal' in response['blog']['title']
+
+
+def test_create_view_returns_dict():
+    """Test if create view returns a dictionary."""
+    from learning_journal.views.default import create_view
+    req = DummyRequest()
+    response = create_view(req)
+    assert isinstance(response, dict)
+
+
+def test_update_view_returns_dict():
+    """Test if update view returns a dictionary."""
+    from learning_journal.views.default import update_view
+    req = DummyRequest()
+    req.matchdict['id'] = 1
+    response = update_view(req)
+    assert isinstance(response, dict)
+
+
+def test_update_view_raises_exception_id_not_found():
+    """Test if update raises exception on non-existent id."""
+    from learning_journal.views.default import update_view
+    req = DummyRequest()
+    req.matchdict['id'] = 20
+    with pytest.raises(HTTPNotFound):
+        update_view(req)
+
+
+@pytest.fixture
+def testapp():
+    """Initialize test route for testing."""
+    from webtest import TestApp
+    from pyramid.config import Configurator
+
+    def main():
+        config = Configurator()
+        config.include('pyramid_jinja2')
+        config.include('.routes')
+        config.scan()
+        return config.make_wsgi_app()
+
+    app = main()
+    return TestApp(app)
+
+
+def test_home_route_has_h_two_titles(testapp):
+    """Test if num of titles is same as length of blogs."""
+    from learning_journal.views.default import BLOGS
+    response = testapp.get("/")
+    assert len(BLOGS) == len(response.html.find_all('h2'))
+
+
+def test_detail_route_has_one_title(testapp):
+    """Test if num of titles * 2 is same as length of blogs."""
+    response = testapp.get("/journal/1")
+    assert len(response.html.find_all('h2')) == 2
+
+
+def test_detail_route_has_text_from_journal(testapp):
+    """Test if detail route return text from served journal."""
+    response = testapp.get("/journal/1")
+    assert "I\'m lamenting the loss of the console" in str(response.html)
+
+
+def test_create_route_has_one_item_in_dict(testapp):
+    """Test if create route returns correct entry."""
+    response = testapp.get("/journal/new-entry")
+    assert 'Alright, self, create a awesome blog' in str(response.html)
+
+
+def test_update_route_has_one_title(testapp):
+    """Test if update route returns correct entry."""
+    response = testapp.get("/journal/1/edit-entry")
+    assert 'Day 1 Journal' in str(response.html)
+
+
+Step3 Tests:
 @pytest.fixture(scope='session')
 def configuration(request):
     """Set up a Configurator instance."""
@@ -68,7 +158,7 @@ def test_list_view_contains_new_data_added(dummy_request):
     new_entry = Blog(
         id=100,
         title='Something Awesome',
-        creation_date='November 19, 1955',
+        creation_date=11-12-2019,
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_entry)
@@ -81,28 +171,30 @@ def test_detail_view_returns_dict(dummy_request):
     """Test if detail view returns dictionary."""
     from learning_journal.views.default import detail_view
     new_detail = Blog(
+        id=101,
         title='Something Awesomer',
-        creation_date='November 12, 1897',
+        creation_date=11-12-2019,
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
     dummy_request.dbsession.commit()
-    dummy_request.matchdict['id'] = 1
+    dummy_request.matchdict['id'] = 101
     response = detail_view(dummy_request)
     assert isinstance(response, dict)
 
-    
+
 def test_detail_view_returns_sinlgle_item(dummy_request):
     """Test if detail view returns dictionary with contents of 'title'."""
     from learning_journal.views.default import detail_view
     new_detail = Blog(
+        id=102,
         title='Something Awesomers',
-        creation_date='January 1, 0001',
+        creation_date=11-12-2019,
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
     dummy_request.dbsession.commit()
-    dummy_request.matchdict['id'] = 2
+    dummy_request.matchdict['id'] = 102
     response = detail_view(dummy_request)
     assert response['blog']['title'] == 'Something Awesomers'
 
@@ -132,7 +224,7 @@ def test_create_view_returns_empty_dict(dummy_request):
 def test_update_view_returns_dict(dummy_request):
     """Test if update view returns a dictionary."""
     from learning_journal.views.default import update_view
-    dummy_request.matchdict['id'] = 1
+    dummy_request.matchdict['id'] = 101
     response = update_view(dummy_request)
     assert isinstance(response, dict)
 
@@ -140,7 +232,7 @@ def test_update_view_returns_dict(dummy_request):
 def test_update_view_returns_title_of_single_entry(dummy_request):
     """Test if update view title of single item chosen."""
     from learning_journal.views.default import update_view
-    dummy_request.matchdict['id'] = 2
+    dummy_request.matchdict['id'] = 102
     response = update_view(dummy_request)
     assert response['blog']['title'] == 'Something Awesomers'
 
@@ -151,98 +243,3 @@ def test_update_view_raises_exception_id_not_found(dummy_request):
     dummy_request.matchdict['id'] = 25
     with pytest.raises(HTTPNotFound):
         update_view(dummy_request)
-
-
-# @pytest.fixture(scope="session")
-# def testapp(request):
-#     """Setup session to test front end of app."""
-#     from webtest import TestApp
-#     from pyramid.config import Configurator
-
-#     def main():
-#         config = Configurator()
-#         settings = {
-#             'sqlalchemy.url': 'postgres://localhost:5432/learning_journal'
-#         }
-#         config = Configurator(settings=settings)
-#         config.include('pyramid_jinja2')
-#         config.include('.routes')
-#         config.include('learning_journal.routes')
-#         config.include('learning_journal.models')
-#         config.scan()
-#         return config.make_wsgi_app()
-
-#     app = main()
-
-#     SessionFactory = app.registry["dbsession_factory"]
-#     engine = SessionFactory().bind
-#     Base.metadata.create_all(bind=engine)
-
-#     def tearDown():
-#         Base.metadata.drop_all(bind=engine)
-
-#     request.addfinalizer(tearDown)
-
-#     return TestApp(app)
-
-
-# @pytest.fixture(scope="session")
-# def fill_the_db(testapp):
-#     """Fill the db with dummy data."""
-#     SessionFactory = testapp.app.registry["dbsession_factory"]
-#     with transaction.manager:
-#         dbsession = get_tm_session(SessionFactory, transaction.manager)
-#         dbsession.add_all(BLOGS)
-
-
-# BLOGS = []
-
-
-# FAKE = Faker()
-
-
-# for i in range(20):
-#     new_entry = Blog(
-#         title='journal{}'.format(i),
-#         creation_date=FAKE.date_time(),
-#         body='A new entry. {}'.format(FAKE.sentence())
-#     )
-#     BLOGS.append(new_entry)
-
-
-# def test_home_route_has_titles(testapp):
-#     # from learning_journal.views.default import BLOGS
-#     response = testapp.get("/")
-#     assert len(BLOGS) == len(response.html.find_all('h2')) - 1
-#     assert len(response.html.find_all('title')) == 20
-
-
-# def test_home_route_with_expenses_has_rows(testapp, fill_the_db):
-#     response = testapp.get("/")
-#     assert len(response.html.find_all('tr')) == 21
-
-
-# def test_detail_route_with_expenses_shows_expense_detail(testapp, fill_the_db):
-#     response = testapp.get("/expenses/3")
-#     assert 'potato2' in response.ubody
-
-
-# def test_create_view_successful_post_redirects_home(testapp):
-#     expense_info = {
-#         "title": "Transportation",
-#         "amount": 2.75,
-#         "due_date": '2017-11-02'
-#     }
-#     response = testapp.post("/expenses/new-expense", expense_info)
-#     assert response.location == 'http://localhost/'
-
-
-# def test_create_view_successful_post_actually_shows_home_page(testapp):
-#     expense_info = {
-#         "title": "Booze",
-#         "amount": 88.50,
-#         "due_date": '2017-11-02'
-#     }
-#     response = testapp.post("/expenses/new-expense", expense_info)
-#     next_page = response.follow()
-#     assert "Booze" in next_page.ubody
