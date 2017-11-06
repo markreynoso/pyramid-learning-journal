@@ -1,4 +1,4 @@
-"""Test default.py."""
+"""Test learning journal."""
 from pyramid.testing import DummyRequest
 from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.models.meta import Base
