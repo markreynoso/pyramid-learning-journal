@@ -91,7 +91,7 @@ def test_detail_view_returns_dict(dummy_request):
     response = detail_view(dummy_request)
     assert isinstance(response, dict)
 
-
+    
 def test_detail_view_returns_sinlgle_item(dummy_request):
     """Test if detail view returns dictionary with contents of 'title'."""
     from learning_journal.views.default import detail_view
