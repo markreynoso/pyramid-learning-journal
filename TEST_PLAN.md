@@ -1,5 +1,78 @@
 
-Step 2 Tests
+
+STEP 1 TESTS
+```
+@pytest.fixture
+def dummy_request():
+    """Fixture to initiate request for testing."""
+    return testing.DummyRequest()
+
+
+def test_list_view_response_status_code_200_ok(dummy_request):
+    """Test if request will return 200 ok response."""
+    response = list_view(dummy_request)
+    assert response.status_code == 200
+
+
+def test_datail_view_response_status_code_200_ok(dummy_request):
+    """Test if request will return 200 ok response."""
+    response = detail_view(dummy_request)
+    assert response.status_code == 200
+
+
+def test_create_view_response_status_code_200_ok(dummy_request):
+    """Test if request will return 200 ok response."""
+    response = create_view(dummy_request)
+    assert response.status_code == 200
+
+
+def test_update_view_response_status_code_200_ok(dummy_request):
+    """Test if request will return 200 ok response."""
+    response = update_view(dummy_request)
+    assert response.status_code == 200
+
+
+def test_list_view_response_text_has_proper_content_type(dummy_request):
+    """Test that list view returns expected content."""
+    response = list_view(dummy_request)
+    assert response.content_type == 'text/html'
+
+
+def test_list_view_response_text_has_proper_content(dummy_request):
+    """Test that list view returns expected content."""
+    response = list_view(dummy_request)
+    text = '<h1>Mark\'s Thoughtful Spot</h1>'
+    assert text in response.ubody
+
+
+def test_detail_view_response_text_has_proper_content_type(dummy_request):
+    """Test that list view returns expected content."""
+    response = detail_view(dummy_request)
+    assert response.content_type == 'text/html'
+
+
+def test_detail_view_response_text_has_proper_content(dummy_request):
+    """Test that list view returns expected content."""
+    response = detail_view(dummy_request)
+    text = '<h2 class="section-heading">Learning all the Things</h2>'
+    assert text in response.ubody
+
+
+def test_create_view_response_text_has_proper_content_type(dummy_request):
+    """Test that list view returns expected content."""
+    response = create_view(dummy_request)
+    assert response.content_type == 'text/html'
+
+
+def test_create_view_response_text_has_proper_content(dummy_request):
+    """Test that list view returns expected content."""
+    response = create_view(dummy_request)
+    text = '<p>Alright, self, create a awesome blog post here!</p>'
+    assert text in response.ubody
+```
+
+STEP 2 TESTS
+```
 def test_list_view_returns_dict():
     """Test if list view returns a dictionary."""
     from learning_journal.views.default import list_view
@@ -97,9 +170,10 @@ def test_update_route_has_one_title(testapp):
     """Test if update route returns correct entry."""
     response = testapp.get("/journal/1/edit-entry")
     assert 'Day 1 Journal' in str(response.html)
+```
 
-
-Step3 Tests:
+STEP 3 TESTS:
+```
 @pytest.fixture(scope='session')
 def configuration(request):
     """Set up a Configurator instance."""
@@ -243,3 +317,4 @@ def test_update_view_raises_exception_id_not_found(dummy_request):
     dummy_request.matchdict['id'] = 25
     with pytest.raises(HTTPNotFound):
         update_view(dummy_request)
+```
