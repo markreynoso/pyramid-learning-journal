@@ -29,4 +29,4 @@ class Blog(Base):
         }
 
 
-Index('my_index', Blog.title, unique=True, mysql_length=255)
+# Index('my_index', Blog.title, unique=True, mysql_length=255)
