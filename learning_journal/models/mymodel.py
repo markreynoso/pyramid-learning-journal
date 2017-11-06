@@ -24,7 +24,7 @@ class Blog(Base):
         return {
             'id': self.id,
             'title': self.title,
-            'creation_date': self.creation_date,
+            'creation_date': self.creation_date.strftime('%B %d, %Y'),
             'body': self.body
         }
 
