@@ -6,7 +6,7 @@ from sqlalchemy import (
     Integer,
     String,
 )
-
+from datetime import datetime
 from .meta import Base
 
 
@@ -16,7 +16,7 @@ class Blog(Base):
     __tablename__ = 'journals'
     id = Column(Integer, primary_key=True)
     title = Column(String(convert_unicode=True))
-    creation_date = Column(DateTime)
+    creation_date = Column(String(convert_unicode=True))
     body = Column(String(convert_unicode=True))
 
     def to_dict(self):
@@ -24,9 +24,6 @@ class Blog(Base):
         return {
             'id': self.id,
             'title': self.title,
-            'creation_date': self.creation_date.strftime('%B %d, %Y'),
+            'creation_date': self.creation_date,
             'body': self.body
         }
-
-
-Index('my_index', Blog.title, unique=True, mysql_length=255)

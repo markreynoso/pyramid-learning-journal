@@ -43,7 +43,32 @@ $ py.test learing_journal
 ## Test Coverage
 
 ```
-STEP 2
+_STEP 4_
+---------- coverage: platform darwin, python 2.7.14-final-0 ----------
+Name                                    Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------
+learning_journal/data/__init__.py           0      0   100%
+learning_journal/data/journal_data.py       3      0   100%
+learning_journal/routes.py                  7      0   100%
+learning_journal/views/__init__.py          0      0   100%
+learning_journal/views/default.py          40      2    95%   39, 76
+learning_journal/views/notfound.py          4      2    50%   6-7
+---------------------------------------------------------------------
+TOTAL                                      54      4    93%
+
+---------- coverage: platform darwin, python 3.6.3-final-0 -----------
+Name                                    Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------
+learning_journal/data/__init__.py           0      0   100%
+learning_journal/data/journal_data.py       3      0   100%
+learning_journal/routes.py                  7      0   100%
+learning_journal/views/__init__.py          0      0   100%
+learning_journal/views/default.py          40      2    95%   39, 76
+learning_journal/views/notfound.py          4      2    50%   6-7
+---------------------------------------------------------------------
+TOTAL                                      54      4    93%
+
+_STEP 3_
 ---------- coverage: platform darwin, python 2.7.14-final-0 ----------
 Name                                    Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------
@@ -66,9 +91,9 @@ learning_journal/views/__init__.py          0      0   100%
 learning_journal/views/default.py          21      0   100%
 learning_journal/views/notfound.py          4      2    50%   6-7
 ---------------------------------------------------------------------
-TOTAL 
+TOTAL                                      33      2    94%
 
-STEP 3
+_STEP 2_
 ---------- coverage: platform darwin, python 2.7.14-final-0 ----------
 Name                                    Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------
@@ -92,4 +117,22 @@ learning_journal/views/default.py          21      0   100%
 learning_journal/views/notfound.py          4      2    50%   6-7
 ---------------------------------------------------------------------
 TOTAL                                      33      2    94%
+
+_STEP 1_
+---------- coverage: platform darwin, python 2.7.14-final-0 ----------
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+learning_journal/views/default.py       20      0   100%
+learning_journal/views/notfound.py       4      2    50%   6-7
+------------------------------------------------------------------
+TOTAL                                   24      2    92%
+
+---------- coverage: platform darwin, python 3.6.3-final-0 -----------
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+learning_journal/views/default.py       20      0   100%
+learning_journal/views/notfound.py       4      2    50%   6-7
+------------------------------------------------------------------
+TOTAL                                   24      2    92%
+
 ```
