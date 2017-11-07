@@ -193,16 +193,6 @@ def testapp(request):
     return TestApp(app)
 
 
-# @pytest.fixture(scope="session")
-# def empty_the_db(testapp):
-#     """Fill the db with dummy data."""
-#     SessionFactory = testapp.app.registry["dbsession_factory"]
-#     with transaction.manager:
-#         dbsession = get_tm_session(SessionFactory, transaction.manager)
-#         engine = dbsession.bind
-#         Base.metadata.drop_all(bind=engine)
-
-
 @pytest.fixture(scope="session")
 def fill_the_db(testapp):
     """Fill the db with dummy data."""
