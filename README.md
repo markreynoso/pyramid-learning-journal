@@ -116,6 +116,23 @@ learning_journal/views/__init__.py          0      0   100%
 learning_journal/views/default.py          21      0   100%
 learning_journal/views/notfound.py          4      2    50%   6-7
 ---------------------------------------------------------------------
-TOTAL 
+TOTAL                                      33      2    94%
+
+_STEP 1_
+---------- coverage: platform darwin, python 2.7.14-final-0 ----------
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+learning_journal/views/default.py       20      0   100%
+learning_journal/views/notfound.py       4      2    50%   6-7
+------------------------------------------------------------------
+TOTAL                                   24      2    92%
+
+---------- coverage: platform darwin, python 3.6.3-final-0 -----------
+Name                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------
+learning_journal/views/default.py       20      0   100%
+learning_journal/views/notfound.py       4      2    50%   6-7
+------------------------------------------------------------------
+TOTAL                                   24      2    92%
 
 ```
