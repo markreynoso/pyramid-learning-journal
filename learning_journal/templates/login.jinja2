@@ -1,0 +1,49 @@
+{% extends "layout.jinja2" %}
+{% block content %}
+<!-- Page Header -->
+    <header class="masthead" style="background-image: url('../../static/img/contact-bg.jpg')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="page-heading">
+              <h1>Wait, you better login first.</h1>
+              <span class="subheading">Don't forget your login info</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p>If you type it wrong, this page will self destruct, maybe.</p>
+          <form method="POST" name="sentMessage" id="edit" novalidate>
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <label>User Name</label>
+                <input type="text" class="form-control" placeholder="Username" name="username" id="username" required data-validation-required-message="Please enter your name." value="{{ blog.title }}">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>password</label>
+                <input type="tel" class="form-control" placeholder="password" name="password" id="password" required data-validation-required-message="Please enter your phone number.">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <br>
+            <div id="success"></div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-secondary" id="sendMessageButton">Submit</button>
+              {# <a href="{{ request.route_url('delete', id=blog.id) }}" class="btn btn-secondary" id="sendMessageButton">Delete</a> #}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+{% endblock %}
