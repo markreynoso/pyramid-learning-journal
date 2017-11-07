@@ -39,7 +39,7 @@ def create_view(request):
             raise HTTPBadRequest
         new_entry = Blog(
             title=request.POST['title'],
-            creation_date=datetime.now(),
+            creation_date=datetime.now().strftime('%B %d, %Y'),
             body=request.POST['body']
         )
         request.dbsession.add(new_entry)

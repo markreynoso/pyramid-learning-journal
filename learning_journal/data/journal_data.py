@@ -1,7 +1,6 @@
 """Mark writes journals and saves them."""
-from datetime import datetime
 
-FMT = '%B %d, %Y'
+
 BLOGS = [
     {
         "creation_date": "November 1, 2017",
