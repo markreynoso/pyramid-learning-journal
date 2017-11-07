@@ -48,25 +48,27 @@ _STEP 4_
 Name                                    Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------
 learning_journal/data/__init__.py           0      0   100%
-learning_journal/data/journal_data.py       3      0   100%
+learning_journal/data/journal_data.py       1      0   100%
+learning_journal/models/mymodel.py         11      0   100%
 learning_journal/routes.py                  7      0   100%
 learning_journal/views/__init__.py          0      0   100%
 learning_journal/views/default.py          40      2    95%   39, 76
 learning_journal/views/notfound.py          4      2    50%   6-7
 ---------------------------------------------------------------------
-TOTAL                                      54      4    93%
+TOTAL                                      63      4    94%
 
 ---------- coverage: platform darwin, python 3.6.3-final-0 -----------
 Name                                    Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------
 learning_journal/data/__init__.py           0      0   100%
-learning_journal/data/journal_data.py       3      0   100%
+learning_journal/data/journal_data.py       1      0   100%
+learning_journal/models/mymodel.py         11      0   100%
 learning_journal/routes.py                  7      0   100%
 learning_journal/views/__init__.py          0      0   100%
 learning_journal/views/default.py          40      2    95%   39, 76
 learning_journal/views/notfound.py          4      2    50%   6-7
 ---------------------------------------------------------------------
-TOTAL                                      54      4    93%
+TOTAL                                      63      4    94%
 
 _STEP 3_
 ---------- coverage: platform darwin, python 2.7.14-final-0 ----------
