@@ -1,4 +1,4 @@
-"""Test default.py."""
+"""Test learning journal."""
 from pyramid.testing import DummyRequest
 from pyramid.httpexceptions import HTTPNotFound
 from learning_journal.models.meta import Base
@@ -80,7 +80,7 @@ def test_detail_view_returns_dict(dummy_request):
     from learning_journal.views.default import detail_view
     new_detail = Blog(
         title='Something Awesomer',
-        creation_date='November 12, 1897',
+        creation_date='November 11, 1982',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
@@ -89,13 +89,13 @@ def test_detail_view_returns_dict(dummy_request):
     response = detail_view(dummy_request)
     assert isinstance(response, dict)
 
-
+    
 def test_detail_view_returns_sinlgle_item(dummy_request):
     """Test if detail view returns dictionary with contents of 'title'."""
     from learning_journal.views.default import detail_view
     new_detail = Blog(
         title='Something Awesomers',
-        creation_date='January 1, 0001',
+        creation_date='November 1, 2000',
         body='All the cool things I write.'
     )
     dummy_request.dbsession.add(new_detail)
