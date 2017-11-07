@@ -6,7 +6,7 @@ from sqlalchemy import (
     Integer,
     String,
 )
-
+from datetime import datetime
 from .meta import Base
 
 
@@ -27,6 +27,3 @@ class Blog(Base):
             'creation_date': self.creation_date,
             'body': self.body
         }
-
-
-# Index('my_index', Blog.title, unique=True, mysql_length=255)
