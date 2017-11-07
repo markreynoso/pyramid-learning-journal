@@ -284,7 +284,7 @@ def test_delete_view_successfully_removes_entry_on_home_page(testapp):
 
 def test_delete_view_successfully_removes_all_entries_on_home_page(testapp):
     """Test update view changes title on home page reroute."""
-    for i in reversed(range(2-26)):
+    for i in reversed(range(2 - 26)):
         testapp.post("/journal/{}/delete".format(i))
     response = testapp.post("/journal/1/delete")
     next_page = response.follow()
