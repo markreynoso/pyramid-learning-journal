@@ -327,3 +327,36 @@ def test_delete_view_successfully_removes_all_entries_on_home_page(testapp):
     response = testapp.post("/journal/1/delete")
     next_page = response.follow()
     assert "<h2>" not in next_page.ubody
+
+
+def test_login_view_with_correct_login_routes_home(testapp):
+    """Test login view routes home with successful login."""
+    login = {
+        'username': 'markreynoso',
+        'password': 'letmein'
+    }
+    response = testapp.post("/login", login)
+    assert response.status_int == 302 or 200
+
+
+def test_login_view_get_request_returns_login_page(testapp):
+    """Test login page diplays with get request to login view."""
+    response = testapp.get('/login')
+    assert '<h1>Super secret login</h1>' in response
+
+
+def test_login_view_with_incorrect_post_login_returns_same_page(testapp):
+    """Test login with bad credentials returns login page again."""
+    login = {
+        'username': 'markr',
+        'password': 'letmein'
+    }
+    response = testapp.post("/login", login)
+    assert '<h1>Super secret login</h1>' in response.ubody
+
+
+def test_logout_routes_to_home_page(testapp):
+    """Test logout route takes user to homepage."""
+    response = testapp.get('/logout')
+    next_page = response.follow()
+    assert '<h1>Mark\'s Thoughtful Spot</h1>' in next_page

@@ -7,7 +7,7 @@ from pyramid.security import Allow
 from passlib.apps import custom_app_context as pwd_context
 
 
-def includeme(config):
+def includeme(config):  # pragma: no cover
     """Set authentification priority."""
     auth_secret = os.environ.get('AUTH_SECRET', '')
     authn_policy = AuthTktAuthenticationPolicy(
@@ -36,7 +36,7 @@ def is_authenticated(username, password):
     return is_authenticated
 
 
-class MyRoot(object):
+class MyRoot(object):  # pragma: no cover
     """Define premissions for config routes."""
 
     def __init__(self, request):
