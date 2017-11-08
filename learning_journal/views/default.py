@@ -8,7 +8,8 @@ from learning_journal.security import is_authenticated
 
 
 @view_config(route_name='home',
-             renderer='learning_journal:templates/index.jinja2')
+             renderer='learning_journal:templates/index.jinja2',
+             permission='view')
 def list_view(request):
     """Recieve request and serves home page."""
     journals = request.dbsession.query(Blog).all()
@@ -19,7 +20,8 @@ def list_view(request):
 
 
 @view_config(route_name='detail',
-             renderer='learning_journal:templates/read.jinja2')
+             renderer='learning_journal:templates/read.jinja2',
+             permission='view')
 def detail_view(request):
     """Receive request for one journal and returns that journals dict."""
     journal_id = int(request.matchdict['id'])

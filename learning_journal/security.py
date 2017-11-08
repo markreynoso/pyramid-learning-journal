@@ -7,14 +7,14 @@ from pyramid.security import Allow
 from passlib.apps import custom_app_context as pwd_context
 
 
-def inlcudeme(config):
+def includeme(config):
     """Set authentification priority."""
     auth_secret = os.environ.get('AUTH_SECRET', '')
     authn_policy = AuthTktAuthenticationPolicy(
         secret=auth_secret,
         hashalg='sha512'
     )
-    config.set_authenication_policy(authn_policy)
+    config.set_authentication_policy(authn_policy)
     authz_policy = ACLAuthorizationPolicy()
     config.set_authorization_policy(authz_policy)
     config.set_default_permission('view')
@@ -44,6 +44,6 @@ class MyRoot(object):
         self.request = request
 
     __acl__ = [
-        # (Allow, Everyone, 'view'),
+        (Allow, Everyone, 'view'),
         (Allow, Authenticated, 'secret'),
     ]
