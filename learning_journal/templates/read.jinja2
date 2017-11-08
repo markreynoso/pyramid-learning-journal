@@ -22,7 +22,9 @@
             <p class="post-meta">{{ blog.creation_date }}</p>
             <p>{{ blog.body }}</p>
             <div class="clearfix">
+              {% if request.authenticated_userid %}
               <a class="btn btn-secondary float-right" href="{{ request.route_url('update', id=blog.id) }}">Edit Entry &rarr;</a>
+              {% endif %}
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 """Test learning journal."""
 from pyramid.testing import DummyRequest
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from learning_journal.models.meta import Base
 from learning_journal.models import (Blog, get_tm_session)
 from learning_journal.models.meta import Base
@@ -26,7 +26,7 @@ def configuration(request):
     return config
 
 
-@pytest.fixture()
+@pytest.fixture
 def db_session(configuration, request):
     """Create a session for interacting with the test database."""
     SessionFactory = configuration.registry["dbsession_factory"]
@@ -41,7 +41,7 @@ def db_session(configuration, request):
     return session
 
 
-@pytest.fixture()
+@pytest.fixture
 def dummy_request(db_session):
     """Instantiate a fake HTTP Request, complete with a database session."""
     return testing.DummyRequest(dbsession=db_session)
@@ -89,7 +89,7 @@ def test_detail_view_returns_dict(dummy_request):
     response = detail_view(dummy_request)
     assert isinstance(response, dict)
 
-    
+
 def test_detail_view_returns_sinlgle_item(dummy_request):
     """Test if detail view returns dictionary with contents of 'title'."""
     from learning_journal.views.default import detail_view
@@ -156,6 +156,44 @@ def test_update_view_raises_exception_id_not_found(dummy_request):
     dummy_request.matchdict['id'] = 25
     with pytest.raises(HTTPNotFound):
         update_view(dummy_request)
+
+
+def test_login_view_returns_empty_dict_if_get(dummy_request):
+    """Test if login view returns empty dict if get request."""
+    from learning_journal.views.default import login_view
+    response = login_view(dummy_request)
+    assert isinstance(response, dict)
+
+
+def test_login_view_with_correct_login_return_httpfound(dummy_request):
+    """Test if login view returns httpfound with good login."""
+    from learning_journal.views.default import login_view
+    dummy_request.method = 'POST'
+    dummy_request.POST = {
+        'username': 'markreynoso',
+        'password': 'letmein'
+    }
+    response = login_view(dummy_request)
+    assert isinstance(response, HTTPFound)
+
+
+def test_login_view_returns_empty_dict_if_bad_login(dummy_request):
+    """Test if login view returns empty dict if bad request."""
+    from learning_journal.views.default import login_view
+    dummy_request.method = 'POST'
+    dummy_request.POST = {
+        'username': 'markreynoso',
+        'password': 'password'
+    }
+    response = login_view(dummy_request)
+    assert response == {}
+
+
+def test_logout_returns_httpfound(dummy_request):
+    """Test logout view returns httpfound page."""
+    from learning_journal.views.default import logout
+    response = logout(dummy_request)
+    assert isinstance(response, HTTPFound)
 
 
 # ------------ Begin Functional tests ------------
@@ -289,3 +327,36 @@ def test_delete_view_successfully_removes_all_entries_on_home_page(testapp):
     response = testapp.post("/journal/1/delete")
     next_page = response.follow()
     assert "<h2>" not in next_page.ubody
+
+
+def test_login_view_with_correct_login_routes_home(testapp):
+    """Test login view routes home with successful login."""
+    login = {
+        'username': 'markreynoso',
+        'password': 'letmein'
+    }
+    response = testapp.post("/login", login)
+    assert response.status_int == 302 or 200
+
+
+def test_login_view_get_request_returns_login_page(testapp):
+    """Test login page diplays with get request to login view."""
+    response = testapp.get('/login')
+    assert '<h1>Super secret login</h1>' in response
+
+
+def test_login_view_with_incorrect_post_login_returns_same_page(testapp):
+    """Test login with bad credentials returns login page again."""
+    login = {
+        'username': 'markr',
+        'password': 'letmein'
+    }
+    response = testapp.post("/login", login)
+    assert '<h1>Super secret login</h1>' in response.ubody
+
+
+def test_logout_routes_to_home_page(testapp):
+    """Test logout route takes user to homepage."""
+    response = testapp.get('/logout')
+    next_page = response.follow()
+    assert '<h1>Mark\'s Thoughtful Spot</h1>' in next_page
