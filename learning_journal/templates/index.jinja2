@@ -1,19 +1,15 @@
 {% extends "layout.jinja2" %}
-{% block content %}
     <!-- Page Header -->
+    {% block image %}
     <header class="masthead" style="background-image: url('../static/img/home-bg.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="site-heading">
+    {% endblock %}
+    {% block title %}
               <h1>Mark's Thoughtful Spot</h1>
               <span class="subheading">Thoughts about things I think</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+    {% endblock %}
 
+
+{% block content %}
     <!-- Main Content -->
     <div class="container">
       <div class="row">

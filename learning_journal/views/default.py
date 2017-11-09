@@ -24,7 +24,6 @@ def detail_view(request):
     blog_id = int(request.matchdict['id'])
     if blog_id < 0 or blog_id > len(BLOGS):
         raise HTTPNotFound
-    # blog = BLOGS.id[blog_id]
     blog = list(filter(lambda blog: blog['id'] == blog_id, BLOGS))[0]
     return {
         'blog': blog
@@ -46,7 +45,6 @@ def update_view(request):
     blog_id = int(request.matchdict['id'])
     if blog_id < 0 or blog_id > len(BLOGS):
         raise HTTPNotFound
-    # blog = BLOGS.id[blog_id]
     blog = list(filter(lambda blog: blog['id'] == blog_id, BLOGS))[0]
     return {
         'blog': blog

@@ -21,7 +21,7 @@ def test_list_view_returns_list_of_journals_in_dict():
 
 
 def test_deatil_view_returns_single_journal():
-    """Test if list view returns list of blogs."""
+    """Test if detail view returns title of single blog."""
     from learning_journal.views.default import detail_view
     req = DummyRequest()
     req.matchdict['id'] = 1
@@ -31,7 +31,7 @@ def test_deatil_view_returns_single_journal():
 
 
 def test_detail_view_raises_exception_id_not_found():
-    """Test if detail raises exception on non-existent id."""
+    """Test if detail view raises exception on non-existent id."""
     from learning_journal.views.default import detail_view
     req = DummyRequest()
     req.matchdict['id'] = 20
