@@ -1,10 +1,12 @@
 """View functions to serve to routes."""
-from pyramid.view import view_config
 from datetime import datetime
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound, HTTPBadRequest
-from pyramid.security import remember, forget
+
 from learning_journal.models.mymodel import Blog
 from learning_journal.security import is_authenticated
+
+from pyramid.httpexceptions import HTTPBadRequest, HTTPFound, HTTPNotFound
+from pyramid.security import forget, remember
+from pyramid.view import view_config
 
 
 @view_config(route_name='home',

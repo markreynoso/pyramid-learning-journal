@@ -1,13 +1,19 @@
 """Test learning journal."""
-from pyramid.testing import DummyRequest
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
-from learning_journal.models.meta import Base
+from faker import Faker
+
 from learning_journal.models import (Blog, get_tm_session)
 from learning_journal.models.meta import Base
+from learning_journal.models.meta import Base
+
 from pyramid import testing
+
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+from pyramid.testing import DummyRequest
+
+
 import pytest
+
 import transaction
-from faker import Faker
 
 
 @pytest.fixture(scope='session')
@@ -323,6 +329,16 @@ def test_logout_routes_to_home_page(testapp):
     response = testapp.get('/logout')
     next_page = response.follow()
     assert '<h1>Mark\'s Thoughtful Spot</h1>' in next_page
+
+
+def test_login_view_with_incorrect_login_returns_login_page(testapp):
+    """Test login view routes home with successful login."""
+    login = {
+        'username': 'markreynoso',
+        'password': 'password'
+    }
+    response = testapp.post("/login", login)
+    assert '<h1>Super secret login</h1>' in response.ubody
 
 
 def test_login_view_with_correct_login_routes_home(testapp):

@@ -1,10 +1,12 @@
 """Keeping myself safe with a little security."""
 import os
+
+from passlib.apps import custom_app_context as pwd_context
+
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.security import Everyone, Authenticated
 from pyramid.security import Allow
-from passlib.apps import custom_app_context as pwd_context
+from pyramid.security import Authenticated, Everyone
 
 
 def includeme(config):
