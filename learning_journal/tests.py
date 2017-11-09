@@ -11,7 +11,6 @@ from faker import Faker
 
 
 @pytest.fixture(scope='session')
-# @pytest.fixture
 def configuration(request):
     """Set up a Configurator instance."""
     config = testing.setUp(settings={
