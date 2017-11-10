@@ -1,12 +1,10 @@
 """Create model to store data in database."""
 from sqlalchemy import (
     Column,
-    DateTime,
-    Index,
     Integer,
     String,
 )
-from datetime import datetime
+
 from .meta import Base
 
 

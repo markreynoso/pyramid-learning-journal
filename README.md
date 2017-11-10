@@ -43,6 +43,35 @@ $ py.test learing_journal
 ## Test Coverage
 
 ```
+_SECURITY TESTS_
+---------- coverage: platform darwin, python 2.7.14-final-0 ----------
+Name                                    Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------
+learning_journal/data/__init__.py           0      0   100%
+learning_journal/data/journal_data.py       1      0   100%
+learning_journal/models/mymodel.py         11      0   100%
+learning_journal/routes.py                  9      0   100%
+learning_journal/security.py               29      2    93%   34-35
+learning_journal/views/__init__.py          0      0   100%
+learning_journal/views/default.py          55      2    96%   44, 82
+learning_journal/views/notfound.py          4      2    50%   6-7
+---------------------------------------------------------------------
+TOTAL                                     109      6    94%
+
+---------- coverage: platform darwin, python 3.6.3-final-0 -----------
+Name                                    Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------
+learning_journal/data/__init__.py           0      0   100%
+learning_journal/data/journal_data.py       1      0   100%
+learning_journal/models/mymodel.py         11      0   100%
+learning_journal/routes.py                  9      0   100%
+learning_journal/security.py               29      2    93%   34-35
+learning_journal/views/__init__.py          0      0   100%
+learning_journal/views/default.py          55      2    96%   44, 82
+learning_journal/views/notfound.py          4      2    50%   6-7
+---------------------------------------------------------------------
+TOTAL                                     109      6    94%
+
 _STEP 4_
 ---------- coverage: platform darwin, python 2.7.14-final-0 ----------
 Name                                    Stmts   Miss  Cover   Missing

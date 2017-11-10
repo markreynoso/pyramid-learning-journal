@@ -1,15 +1,19 @@
 """View functions to serve to routes."""
-from pyramid.view import view_config
 from datetime import datetime
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound, HTTPBadRequest
-from pyramid.security import remember, forget
+
 from learning_journal.models.mymodel import Blog
 from learning_journal.security import is_authenticated
+
+from pyramid.httpexceptions import HTTPBadRequest, HTTPFound, HTTPNotFound
+from pyramid.security import forget, remember
+from pyramid.session import check_csrf_token
+from pyramid.view import view_config
 
 
 @view_config(route_name='home',
              renderer='learning_journal:templates/index.jinja2',
-             permission='view')
+             permission='view',
+             require_csrf=False)
 def list_view(request):
     """Recieve request and serves home page."""
     journals = request.dbsession.query(Blog).all()
@@ -21,7 +25,8 @@ def list_view(request):
 
 @view_config(route_name='detail',
              renderer='learning_journal:templates/read.jinja2',
-             permission='view')
+             permission='view',
+             require_csrf=False)
 def detail_view(request):
     """Receive request for one journal and returns that journals dict."""
     journal_id = int(request.matchdict['id'])
@@ -71,7 +76,9 @@ def update_view(request):
     raise HTTPNotFound
 
 
-@view_config(route_name='delete', permission='secret')
+@view_config(route_name='delete',
+             permission='secret',
+             require_csrf=False)
 def delete_view(request):
     """Receive request and serves edit blog page."""
     journal_id = int(request.matchdict['id'])
@@ -83,7 +90,8 @@ def delete_view(request):
 
 
 @view_config(route_name='login',
-             renderer='learning_journal:templates/login.jinja2')
+             renderer='learning_journal:templates/login.jinja2',
+             require_csrf=False)
 def login_view(request):
     """Receive request and serves edit blog page."""
     if request.method == 'GET':
@@ -97,7 +105,7 @@ def login_view(request):
         return {}
 
 
-@view_config(route_name='logout')
+@view_config(route_name='logout', require_csrf=False)
 def logout(request):
     """Receive request and serves edit blog page."""
     headers = forget(request)
