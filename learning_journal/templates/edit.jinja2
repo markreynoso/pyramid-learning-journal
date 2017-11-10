@@ -15,6 +15,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <p>YOUR CHANGES ARE FINAL. until you change them again.</p>
           <form method="POST" name="sentMessage" id="edit" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ request.session.get_csrf_token() }}" />
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>Title</label>
