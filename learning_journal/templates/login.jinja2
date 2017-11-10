@@ -1,19 +1,14 @@
 {% extends "layout.jinja2" %}
-{% block content %}
 <!-- Page Header -->
+{% block image %}
     <header class="masthead" style="background-image: url('../../static/img/contact-bg.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="page-heading">
+{% endblock %}
+{% block title %}
               <h1>Super secret login</h1>
               <span class="subheading">dear hacker, please don't hack me</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+{% endblock %}
 
+{% block content %}
     <!-- Main Content -->
     <div class="container">
       <div class="row">
