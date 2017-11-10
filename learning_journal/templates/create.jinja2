@@ -1,19 +1,14 @@
 {% extends "layout.jinja2" %}
-{% block content %}
 <!-- Page Header -->
+{% block image %}
     <header class="masthead" style="background-image: url('../static/img/contact-bg.jpg')">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="page-heading">
-              <h1>Create Blog</h1>
-              <span class="subheading">This is where the magic happens.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+{% endblock %}
+{% block title %}
+    <h1>Create Blog</h1>
+    <span class="subheading">This is where the magic happens.</span>
+{% endblock %}
 
+{% block content %}
     <!-- Main Content -->
     <div class="container">
       <div class="row">
@@ -27,17 +22,10 @@
                 <p class="help-block text-danger"></p>
               </div>
             </div>
-          {#   <div class="control-group">
-              <div class="form-group floating-label-form-group controls">
-                <label>Sub-title</label>
-                <input type="email" class="form-control" placeholder="Sub-title" id="email" required data-validation-required-message="Please enter your email address.">
-                <p class="help-block text-danger"></p>
-              </div>
-            </div> #}
             <div class="control-group">
               <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Date</label>
-                <input type="tel" class="form-control" placeholder="I'll take care of it, move on." id="creation_date" name="creatiion_date" required data-validation-required-message="Please enter your phone number." value="{{ creation_date }}" readonly>{{ creation_date }}
+                <input type="tel" class="form-control" placeholder="I'll take care of it, move on." id="creation_date" name="creation_date" required data-validation-required-message="Please enter your phone number." value="{{ creation_date }}" readonly>{{ creation_date }}
                 <p class="help-block text-danger"></p>
               </div>
             </div>
