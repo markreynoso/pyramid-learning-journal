@@ -15,7 +15,6 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <p>If you type it wrong, this page will self destruct, maybe.</p>
           <form method="POST" name="sentMessage" id="edit" novalidate>
-            <input type="hidden" name="csrf_token" value="{{ request.session.get_csrf_token() }}" />
             <div class="control-group">
               <div class="form-group floating-label-form-group controls">
                 <label>User Name</label>

@@ -3,7 +3,6 @@ from faker import Faker
 
 from learning_journal.models import (Blog, get_tm_session)
 from learning_journal.models.meta import Base
-from learning_journal.models.meta import Base
 
 from pyramid import testing
 
@@ -269,13 +268,21 @@ def test_create_route_no_login_is_403(testapp):
     assert testapp.get("/journal/new-entry", status=403)
 
 
+def test_edit_route_no_login_is_403(testapp):
+    """Test if edit route shows title expected."""
+    assert testapp.get("/journal/5/edit-entry", status=403)
+
+
 def test_create_view_successful_post_redirects_home(testapp):
     """Test create view redirects to home page after submission."""
     testapp.post('/login', {
         'username': 'markreynoso',
-        'password': 'letmein'
+        'password': 'letmein',
     })
+    csrf = testapp.get('/journal/new-entry').html.\
+        find('input', {'type': 'hidden'})['value']
     new_entry = {
+        "csrf_token": csrf,
         "title": "All the days",
         "date": 'January 1, 0001',
         "body": 'All tests and no work make mark a dull boy.'
@@ -286,7 +293,10 @@ def test_create_view_successful_post_redirects_home(testapp):
 
 def test_create_view_successful_post_actually_shows_on_home_page(testapp):
     """Test create view shows title of new entry on home page on redirect."""
+    csrf = testapp.get('/journal/new-entry').html.\
+        find('input', {'type': 'hidden'})['value']
     new_entry = {
+        "csrf_token": csrf,
         "title": "Journal Me",
         "date": 'January 1, 0002',
         "body": 'All tests and no work make mark a dull boy.'
@@ -298,7 +308,10 @@ def test_create_view_successful_post_actually_shows_on_home_page(testapp):
 
 def test_update_view_successfully_updates_title_on_home_page(testapp):
     """Test update view changes title on home page reroute."""
+    csrf = testapp.get('/journal/20/edit-entry').html.\
+        find('input', {'type': 'hidden'})['value']
     edit_entry = {
+        "csrf_token": csrf,
         "title": "Journal Me, edit",
         "date": 'January 1, 0002',
         "body": 'All tests and no work make mark a dull boy.'

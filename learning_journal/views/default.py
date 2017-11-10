@@ -76,7 +76,9 @@ def update_view(request):
     raise HTTPNotFound
 
 
-@view_config(route_name='delete', permission='secret')
+@view_config(route_name='delete',
+             permission='secret',
+             require_csrf=False)
 def delete_view(request):
     """Receive request and serves edit blog page."""
     journal_id = int(request.matchdict['id'])
