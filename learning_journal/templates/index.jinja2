@@ -1,0 +1,34 @@
+{% extends "layout.jinja2" %}
+    <!-- Page Header -->
+{% block image %}
+    <header class="masthead" style="background-image: url('../static/img/home-bg.jpg')">
+{% endblock %}
+{% block title %}
+    <h1>Mark's Thoughtful Spot</h1>
+    <span class="subheading">Thoughts about things I think</span>
+{% endblock %}
+   
+{% block content %}
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          {% for blog in blogs %}
+          <div class="post-preview">
+            <a href="{{ request.route_url('detail', id=blog.id) }}">
+              <h2 class="post-title">{{ blog.title }}</h2>
+            </a>
+            <p class="post-meta">{{ blog.creation_date }}</p>
+          </div>
+          <hr>
+          {% endfor %}
+          <!-- Pager -->
+          <div class="clearfix">
+            <a class="btn btn-secondary float-right" href="/journal/new-entry">New Entry &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+{% endblock %}

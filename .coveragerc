@@ -1,0 +1,11 @@
+[run]
+source = learning_journal
+omit = 
+    learning_journal/test*
+    learning_journal/__init__.py
+    learning_journal/models/__init__.py
+    learning_journal/models/meta.py
+    learning_journal/scripts/__init__.py
+    learning_journal/scripts/initializedb.py
+[report]
+show_missing = True

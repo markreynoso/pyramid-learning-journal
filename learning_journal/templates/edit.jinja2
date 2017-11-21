@@ -1,0 +1,52 @@
+{% extends "layout.jinja2" %}
+<!-- Page Header -->
+{% block image %}
+    <header class="masthead" style="background-image: url('../../static/img/contact-bg.jpg')">
+{% endblock %}
+{% block title %}
+    <h1>Oh, No!</h1>
+    <span class="subheading">Time to fix your post. Get at it!</span>
+{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p>YOUR CHANGES ARE FINAL. until you change them again.</p>
+          <form method="POST" name="sentMessage" id="edit" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ request.session.get_csrf_token() }}" />
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <label>Title</label>
+                <input type="text" class="form-control" placeholder="Change blog title here" name="title" id="title" required data-validation-required-message="Please enter your name." value="{{ blog.title }}">
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Date</label>
+                <input type="tel" class="form-control" placeholder="Change post date here" name="creation_date" id="date" required data-validation-required-message="Please enter your phone number." value="{{ blog.creation_date }} - can't change this. Get lost." readonly>
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="form-group floating-label-form-group controls">
+                <label>Body</label>
+                <textarea rows="5" class="form-control" placeholder="Body" name="body" id="body" required data-validation-required-message="Please enter a message.">{{ blog.body }}</textarea>
+                <p class="help-block text-danger"></p>
+              </div>
+            </div>
+            <br>
+            <div id="success"></div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-secondary" id="sendMessageButton">Submit</button>
+              <a href="{{ request.route_url('delete', id=blog.id) }}" class="btn btn-secondary" id="sendMessageButton">Delete</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+{% endblock %}

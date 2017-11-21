@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mark Reynoso</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/module.css">
+    <link rel="stylesheet" href="styles/portfolio.css">
+    <link rel="stylesheet" href="styles/experience.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,400,600" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script id="post-template" type="text/x-handlebars-template">
+      <div class="project">
+        <h4 class="title">{{ title }}</h4>
+        <a href="{{ link }}"><img src="{{ img }}" alt="image"></a>
+        <p class="description">{{ description }}</p>
+      </div>
+    </script>
+    <script id="job-template" type="text/x-handlebars-template">
+      <div class="job">
+        <h4 class="title">{{ title }}</h4>
+        <p class="company">{{ company }}</p>
+        <p class="dates">{{ start }} to {{ end }}</p>
+        <p class="summary">{{ summary }}</p>
+        <p class="skills-used">{{ used }}</p>
+      </div>
+    </script>
+    <script id="blog-template" type="text/x-handlebars-template">
+      <div class="job">
+        <h4 class="title">{{ title }}</h4>
+        <p class="dates">{{ dates }}</p>
+        <p class="body">{{ body }}</p>
+      </div>
+    </script>
+  </head>
+  <body>
+    <div class="main-nav">
+      <a class="btn btn-primary" href="#" aria-label="Skip to main navigation"><i class="fa fa-bars fa-2x" aria-hidden="true"></i></a>
+      <nav id="nav" class="toggle">
+        <ul id="nav-list">
+          <a href="/"><li class="list">About</li></a>
+          <a href="/portfolio"><li class="list">Portfolio</li></a>
+          <a href="/experience"><li class="list">Experience</li></a>
+        </ul>
+      </nav>
+    </div>
+    <div data-type="blog">
+      <h3>My Thoughts on Things</h3>
+      <section class="project">
+        <br>
+        <h2 class="heading">Blog</h2>
+        <br>
+        <div><a href="/create.html" class=button>Go Back to Blog List</a></div>
+        <p>Alright, self, let's create an awesome blog entry.</p>
+        <form action="www.markreynoso.com/blog">
+          <p>Title</p>
+            <input type="text" name="title" />
+          <p>Date</p>
+            <input type="text" name="dates" />
+          <p>Body</p>
+            <input type="textarea" name="body" />
+        </form>        <!-- placeholder for template -->
+      </section>
+    </div>
+    <hr>
+    <footer>
+      <div class="links">
+        <a href="http://github.com/markreynoso"><img src="images/gh.svg" alt="github link"></a>
+        <a href="https://www.linkedin.com/in/mark-reynoso-426686b0/"><img src="images/linkedin.png" alt="linkedin link"></a>
+      </div>
+      <div class="copyright">
+        &copy; 2017 Mark Reynoso
+      </div>
+    </footer>
+  </body>
+  <script src="https://cdn.rawgit.com/visionmedia/page.js/master/page.js"></script>
+<!--   <script type="text/javascript" src="/scripts/models/sourcedata.js"></script>
+  <script type="text/javascript" src="/scripts/views/app.js"></script>
+  <script type="text/javascript" src="/scripts/views/resume.js"></script>
+  <script type="text/javascript" src="/scripts/controllers/filter.js"></script> -->
+  <script type="text/javascript" src="/scripts/controllers/page.js"></script>
+</html>
